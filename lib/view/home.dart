@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:newsapi/view/description.dart';
 import 'package:newsapi/view_model/newsviewModel.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -74,12 +74,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           'bbc',
                         ),
                       ),
-                      PopupMenuItem(
-                        value: FilterList.aryNews,
-                        child: Text(
-                          'ary',
-                        ),
-                      ),
+                      // PopupMenuItem(
+                      //   value: FilterList.aryNews,
+                      //   child: Text(
+                      //     'ary',
+                      //   ),
+                      // ),
                       PopupMenuItem(
                         value: FilterList.cnn,
                         child: Text(
@@ -123,89 +123,110 @@ class _HomeScreenState extends State<HomeScreen> {
                             .toString());
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                Container(
-                                  height: height * 0.6,
-                                  width: width * .9,
-                                  // padding: EdgeInsets.symmetric(
-                                  //     horizontal: height * .1),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://static.dw.com/image/65611306_6.jpg",
-                                      //  snapshot
-                                      //     .data!.articles![index].urlToImage
-                                      //     .toString(),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Description(
+                                            title: snapshot
+                                                .data!.articles![index].title,
+                                            img: snapshot.data!.articles![index]
+                                                .urlToImage,
+                                            des: snapshot.data!.articles![index]
+                                                .description,
+                                          )));
+                            },
+                            child: SizedBox(
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Container(
+                                    height: height * 0.6,
+                                    width: width * .9,
+                                    // padding: EdgeInsets.symmetric(
+                                    //     horizontal: height * .1),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.network(
+                                          snapshot
+                                              .data!.articles![index].urlToImage
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                        )
+                                        // CachedNetworkImage(
+                                        //   imageUrl:
+                                        //       "https://static.dw.com/image/65611306_6.jpg",
+                                        //   //  snapshot
+                                        //   //     .data!.articles![index].urlToImage
+                                        //   //     .toString(),
 
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          CircularProgressIndicator(),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                    ),
+                                        //   fit: BoxFit.cover,
+                                        //   placeholder: (context, url) =>
+                                        //       CircularProgressIndicator(),
+                                        //   errorWidget: (context, url, error) =>
+                                        //       Icon(Icons.error),
+                                        // ),
+                                        ),
                                   ),
-                                ),
-                                Positioned(
-                                  bottom: 20,
-                                  child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Container(
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.all(15),
-                                      height: height * .22,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: width * 0.7,
-                                            child: Text(
-                                              snapshot
-                                                  .data!.articles![index].title
-                                                  .toString(),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: GoogleFonts.poppins(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
+                                  Positioned(
+                                    bottom: 20,
+                                    child: Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Container(
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.all(15),
+                                        height: height * .22,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: width * 0.7,
+                                              child: Text(
+                                                snapshot.data!.articles![index]
+                                                    .title
+                                                    .toString(),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Spacer(),
-                                          Container(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(snapshot
-                                                    .data!
-                                                    .articles![index]
-                                                    .source!
-                                                    .name
-                                                    .toString()),
-                                                SizedBox(
-                                                  width: 40,
-                                                ),
-                                                Text(format.format(dateTime)),
-                                              ],
-                                            ),
-                                          )
-                                        ],
+                                            Spacer(),
+                                            Container(
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(snapshot
+                                                      .data!
+                                                      .articles![index]
+                                                      .source!
+                                                      .name
+                                                      .toString()),
+                                                  SizedBox(
+                                                    width: 40,
+                                                  ),
+                                                  Text(format.format(dateTime)),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                )
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -215,6 +236,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+            Container(
+                height: 500,
+                child: FutureBuilder(
+                    future: newsViewModel.fetchNewChannelHeadlinesApi(name),
+                    builder: (context, snapashot) {
+                      if (snapashot.hasData) {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            var snp = snapashot.data!.articles![index];
+
+                            return ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Description(
+                                              title: snp.title,
+                                              img: snp.urlToImage,
+                                              des: snp.description,
+                                            )));
+                              },
+                              leading: Image.network(snp.urlToImage.toString()),
+                              title: Text(snp.title.toString()),
+                            );
+                          },
+                          itemCount: snapashot.data!.articles!.length,
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    })),
           ],
         ));
   }
